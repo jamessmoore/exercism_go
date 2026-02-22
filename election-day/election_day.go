@@ -5,14 +5,15 @@ var votes *int
 // NewVoteCounter returns a new vote counter with
 // a given number of initial votes.
 func NewVoteCounter(initialVotes int) *int {
-	votes = &initialVotes
-	return votes
+	return &initialVotes
 }
 
 // VoteCount extracts the number of votes from a counter.
 func VoteCount(counter *int) int {
-	count := *counter
-	return count
+	if counter == nil {
+		return 0
+	}
+	return *counter
 }
 
 // IncrementVoteCount increments the value in a vote counter.

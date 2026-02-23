@@ -21,3 +21,13 @@ func (it Italian) Greet(name string) string {
     return fmt.Sprintf("Ciao %s!", name)
 }
 
+type Portuguese struct {}
+
+func (p Portuguese) LanguageName() string {
+    return "Portuguese"
+}
+
+func (p Portuguese) Greet(name string) string {
+    return fmt.Sprintf("Olá %s!", name)
+}
+

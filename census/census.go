@@ -19,15 +19,36 @@ func NewResident(name string, age int, address map[string]string) *Resident {
 
 // HasRequiredInfo determines if a given resident has all of the required information.
 func (r *Resident) HasRequiredInfo() bool {
-	panic("Please implement HasRequiredInfo.")
+	// check for Resident
+	if r == nil {
+		return false
+	}
+	// check for name
+	if r.Name == "" {
+		return false
+	}
+
+	// check for street in address
+	if r.Address == nil || len(r.Address) == 0 {
+		return false
+	}
+
+	for k, v := range r.Address {
+		if k == "street" && v == "" {
+			return false
+		}
+
+	}
+	return true
 }
 
 // Delete deletes a resident's information.
 func (r *Resident) Delete() {
-	panic("Please implement Delete.")
+	
 }
 
 // Count counts all residents that have provided the required information.
 func Count(residents []*Resident) int {
-	panic("Please implement Count.")
+	var count int
+	return count
 }

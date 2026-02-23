@@ -23,7 +23,6 @@ func CountQuotedPasswords(lines []string) int {
 	re := regexp.MustCompile(`(?i)".*?password.*?"`)
 	var count int
 		for _, line := range lines{
-			// fmt.Println(line)
 			ssub := re.FindStringSubmatch(line)
 			count += len(ssub)
 		}
@@ -37,15 +36,14 @@ func RemoveEndOfLineText(text string) string {
 }
 
 func TagWithUserName(lines []string) []string {
-	re := regexp.MustCompile(`User\s*[A-Z]\w*`)
+	re := regexp.MustCompile(`User\s+(\w+)`)
 	result := []string{}
 	for _, line := range lines {
-		fmt.Println(line)
 		sm := re.FindStringSubmatch(line)
-		
 		if sm != nil {
 			fmt.Println(sm)
-		// 	line = fmt.Sprintf("[USR] %s %s", sm[1], line)
+			user := sm[1]
+			line = fmt.Sprintf("[USR] %s %s", user, line)
 		}
 		result = append(result, line)
 	}

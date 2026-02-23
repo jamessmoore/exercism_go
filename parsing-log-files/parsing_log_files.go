@@ -16,17 +16,23 @@ func IsValidLine(text string) bool {
 }
 
 func SplitLogLine(text string) []string {
-	panic("Please implement the SplitLogLine function")
+	//sl = re.Split("123 456", -1) 
+	re := regexp.MustCompile(`^<(-*|~*|\**)\>`)
+	return re.Split(text, -1) 
 }
 
 func CountQuotedPasswords(lines []string) int {
-	panic("Please implement the CountQuotedPasswords function")
+	// panic("Please implement the CountQuotedPasswords function")
+	var count int
+	return count
 }
 
 func RemoveEndOfLineText(text string) string {
-	panic("Please implement the RemoveEndOfLineText function")
+	var return string
+	return return
 }
 
 func TagWithUserName(lines []string) []string {
-	panic("Please implement the TagWithUserName function")
+	var return string
+	return return
 }

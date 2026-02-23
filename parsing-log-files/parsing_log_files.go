@@ -9,7 +9,7 @@ func IsValidLine(text string) bool {
 	re := regexp.MustCompile(`^\[(TRC|DBG|INF|WRN|ERR|FTL)\]+\d*`)
 
 	if re.MatchString(text) {
-		// fmt.Println(text)
+		fmt.Println(text)
 		return true
 	}
 	return false
@@ -25,21 +25,22 @@ func CountQuotedPasswords(lines []string) int {
 	re := regexp.MustCompile(`(?i)".*?password.*?"`)
 	var count int
 		for _, line := range lines{
-			fmt.Println(line)
+			// fmt.Println(line)
 			ssub := re.FindStringSubmatch(line)
-			//fmt.Println(ssub)
 			count += len(ssub)
-			// for range ssub {
-			// 	count++
-			// }
 		}
-	fmt.Println(count)
+	// fmt.Println(count)
 	return count
 }
 
 func RemoveEndOfLineText(text string) string {
-	var result string
-	return result
+	// re := regexp.MustCompile(`^.*end-of-line(?:\\d+.*)*$`)
+	re := regexp.MustCompile(`end-of-line\d*`)
+	// fmt.Println(text)
+	//.*end-of-line\d*.*
+	s := re.ReplaceAllString(text, "")
+	fmt.Println(s)
+	return s
 }
 
 func TagWithUserName(lines []string) []string {

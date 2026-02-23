@@ -1,18 +1,31 @@
 package jedlik
 
-// TODO: define the 'Drive()' method
+import "fmt"
 
-// TODO: define the 'DisplayDistance() string' method
+// Add a field to the `Car` struct that keeps 
+// track of the driven distance (car.go)
 
-// TODO: define the 'DisplayBattery() string' method
 
-// TODO: define the 'CanFinish(trackDistance int) bool' method
+func (car Car) Drive() Car {
+	if (car.battery >= car.batteryDrain){
+		car.battery = (car.battery - car.batteryDrain)
+		car.distance = (car.distance + car.speed)
+		car.traveled += car.traveled
+	}
+	return car
+}
 
-// Your first steps could be to read through the tasks, and create
-// these functions with their correct parameter lists and return types.
-// The function body only needs to contain `panic("")`.
-//
-// This will make the tests compile, but they will fail.
-// You can then implement the function logic one by one and see
-// an increasing number of tests passing as you implement more
-// functionality.
+func (car Car) DisplayDistance() Car {
+	fmt.Printf("Driven %e meters", car.traveled)
+	return car 
+}
+
+func (car Car) DisplayBattery() Car {
+	fmt.Printf("Battery at %e%", car.battery)
+	return car 
+}
+
+func (car Car) CanFinish(trackDistance int) bool {
+	return false
+}
+

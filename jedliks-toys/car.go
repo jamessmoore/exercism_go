@@ -4,7 +4,7 @@ package jedlik
 type Car struct {
 	speed        int
 	batteryDrain int
-
+	traveled int
 	battery  int
 	distance int
 }

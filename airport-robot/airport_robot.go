@@ -8,8 +8,16 @@ type Greeter interface {
 }
 
 func SayHello(name string, g Greeter) string {
-
+    return fmt.Sprintf("I can speak %s: %s", g.LanguageName(), g.Greet(name))
 }
 
+type Italian struct {}
 
+func (it Italian) LanguageName() string {
+    return "Italian"
+}
+
+func (it Italian) Greet(name string) string {
+    return fmt.Sprintf("Ciao %s!", name)
+}
 

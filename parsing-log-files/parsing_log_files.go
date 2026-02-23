@@ -9,7 +9,7 @@ func IsValidLine(text string) bool {
 	re := regexp.MustCompile(`^\[(TRC|DBG|INF|WRN|ERR|FTL)\]+\d*`)
 
 	if re.MatchString(text) {
-		fmt.Println(text)
+		// fmt.Println(text)
 		return true
 	}
 	return false
@@ -39,11 +39,29 @@ func RemoveEndOfLineText(text string) string {
 	// fmt.Println(text)
 	//.*end-of-line\d*.*
 	s := re.ReplaceAllString(text, "")
-	fmt.Println(s)
+	// fmt.Println(s)
 	return s
 }
 
 func TagWithUserName(lines []string) []string {
+	re := regexp.MustCompile(`User\s*[A-Z]\w*`)
 	var result []string
+	var newLine string
+	for _, line := range lines {
+		fmt.Println(line)
+		if sm := re.FindStringSubmatch(line)
+			// for _, s := range sm {
+			// 	if s != "User" {
+			// 		fmt.Println(s)
+			// 	}
+			// }
+			// fmt.Printf("%q", sm)
+			// fmt.Printf("%q\n", re.FindStringSubmatch("-axxxbyc-"))
+			newLine = "[USR] " + line 
+		} 
+		newLine += line
+		// fmt.Println(newLine)
+		result = append(result, newLine)
+	}
 	return result
 }

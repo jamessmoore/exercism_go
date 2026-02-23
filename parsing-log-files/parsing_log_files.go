@@ -9,30 +9,40 @@ func IsValidLine(text string) bool {
 	re := regexp.MustCompile(`^\[(TRC|DBG|INF|WRN|ERR|FTL)\]+\d*`)
 
 	if re.MatchString(text) {
-		fmt.Println(text)
+		// fmt.Println(text)
 		return true
 	}
 	return false
 }
 
 func SplitLogLine(text string) []string {
-	//sl = re.Split("123 456", -1) 
-	re := regexp.MustCompile(`^<(-*|~*|\**)\>`)
+	re := regexp.MustCompile(`\<([-*~=]*)\>`)
+	// fmt.Println(re.Split(text, -1))
 	return re.Split(text, -1) 
 }
 
 func CountQuotedPasswords(lines []string) int {
-	// panic("Please implement the CountQuotedPasswords function")
+	re := regexp.MustCompile(`(?i)".*?password.*?"`)
 	var count int
+		for _, line := range lines{
+			fmt.Println(line)
+			ssub := re.FindStringSubmatch(line)
+			//fmt.Println(ssub)
+			count += len(ssub)
+			// for range ssub {
+			// 	count++
+			// }
+		}
+	fmt.Println(count)
 	return count
 }
 
 func RemoveEndOfLineText(text string) string {
-	var return string
-	return return
+	var result string
+	return result
 }
 
 func TagWithUserName(lines []string) []string {
-	var return string
-	return return
+	var result []string
+	return result
 }

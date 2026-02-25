@@ -3,4 +3,5 @@
 see: [https://exercism.org/]
 
 ## Test script
-The provided bash script testloop.sh is translated into a native Go application that monitors a directory for file changes and executes go test and go build using the os/exec package. The implementation mimics the original's sleep-and-check logic, utilizing os.ReadDir to check for modification timestamps. For more robust, event-driven file monitoring, developers may use the fsnotify library, or for simpler shell-like scripting, the bitfield/script library.
+
+`testloop.sh` is a Bash script designed to automate Go testing by continuously running go test in the current directory, providing immediate feedback for developers [1]. It is primarily used within Exercism Go tracks to loop tests until manually terminated, offering a streamlined workflow for code verification [1]. For more details, visit the repository at https://github.com/jamessmoore/exercism_go/blob/master/testloop.sh.

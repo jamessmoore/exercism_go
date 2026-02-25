@@ -1,46 +1,60 @@
 package main
-// https://github.com/fsnotify/fsnotify
 
 import (
-    "log"
-    "github.com/fsnotify/fsnotify"
+	"fmt"
+	"log"
+	"os"
+	"path/filepath"
+
+	"github.com/fsnotify/fsnotify"
 )
 
 func main() {
-    // Create new watcher.
-    watcher, err := fsnotify.NewWatcher()
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer watcher.Close()
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer watcher.Close()
 
-    // Start listening for events.
-    go func() {
-        for {
-            select {
-            case event, ok := <-watcher.Events:
-                if !ok {
-                    return
-                }
-                log.Println("event:", event)
-                if event.Has(fsnotify.Write) {
-                    log.Println("modified file:", event.Name)
-                }
-            case err, ok := <-watcher.Errors:
-                if !ok {
-                    return
-                }
-                log.Println("error:", err)
-            }
-        }
-    }()
+	// Recursively add directories
+	err = filepath.WalkDir(".", func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if d.IsDir() {
+			return watcher.Add(path)
+		}
+		return nil
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    // Add a path.
-    err = watcher.Add("/tmp")
-    if err != nil {
-        log.Fatal(err)
-    }
+	// Event handling loop
+	go func() {
+		for {
+			select {
+			case event, ok := <-watcher.Events:
+				if !ok {
+					return
+				}
+				fmt.Println("EVENT:", event)
+				// If a new directory is created, add it to watcher
+				if event.Has(fsnotify.Create) {
+					info, err := os.Stat(event.Name)
+					if err == nil && info.IsDir() {
+						watcher.Add(event.Name)
+						fmt.Println("Added new directory:", event.Name)
+					}
+				}
+			case err, ok := <-watcher.Errors:
+				if !ok {
+					return
+				}
+				log.Println("ERROR:", err)
+			}
+		}
+	}()
 
-    // Block main goroutine forever.
-    <-make(chan struct{})
+	<-make(chan struct{}) // Block forever
 }

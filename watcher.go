@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/fsnotify/fsnotify"
 )
@@ -22,6 +22,11 @@ func main() {
 			return err
 		}
 		if d.IsDir() {
+			// Ignore directories starting with '.'
+			if strings.HasPrefix(d.Name(), ".") && d.Name() != "." {
+				return filepath.SkipDir
+			}
+			log.Println("Watching:", path)
 			return watcher.Add(path)
 		}
 		return nil
@@ -30,7 +35,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Event handling loop
+	// Process events
 	go func() {
 		for {
 			select {
@@ -38,20 +43,12 @@ func main() {
 				if !ok {
 					return
 				}
-				fmt.Println("EVENT:", event)
-				// If a new directory is created, add it to watcher
-				if event.Has(fsnotify.Create) {
-					info, err := os.Stat(event.Name)
-					if err == nil && info.IsDir() {
-						watcher.Add(event.Name)
-						fmt.Println("Added new directory:", event.Name)
-					}
-				}
+				log.Println("Event:", event)
 			case err, ok := <-watcher.Errors:
 				if !ok {
 					return
 				}
-				log.Println("ERROR:", err)
+				log.Println("Error:", err)
 			}
 		}
 	}()

@@ -37,32 +37,26 @@ type FancyNumberBox interface {
 // ExtractFancyNumber should return the integer value for a FancyNumber
 // and 0 if any other FancyNumberBox is supplied.
 func ExtractFancyNumber(fnb FancyNumberBox) int {
-	fn := 0
 	_, ok := fnb.(FancyNumber)
     if ok {
 		if sc, err := strconv.Atoi(fnb.Value()); err == nil {
 		// fmt.Printf("%T, %v", sc, sc)
-		fn = sc
+		return sc
 		}
 	}
 	// println(fnb.Value())
-	return fn
+	return 0
 }
 
 // DescribeFancyNumberBox should return a string describing the FancyNumberBox.
 func DescribeFancyNumberBox(fnb FancyNumberBox) string {
-	// println(fnb.Value())
 	number := 0.0
-	sc, ok := fnb.(FancyNumber)
+	_, ok := fnb.(FancyNumber)
+	// fmt.Printf("%T, %v", sc, sc)
     if ok {
-		// if _, err := strconv.Atoi(fnb.Value()); err == nil {
-		fmt.Printf("%T, %v", sc, sc)
-		println(fnb.Value())
-		// number = ExtractFancyNumber(sc)
-		// }
+		number = float64(ExtractFancyNumber(fnb))
 	}
-	prepared := strconv.FormatFloat(float64(number), 'f', 1, 64)
-	return fmt.Sprintf("This is a fancy box containing the number %s", prepared)
+	return fmt.Sprintf("This is a fancy box containing the number %.1f", number)
 }
 
 // DescribeAnything should return a string describing whatever it contains.

@@ -19,7 +19,7 @@ type NumberBox interface {
 func DescribeNumberBox(nb NumberBox) string {
 	number := nb.Number()
 	prepared := strconv.FormatFloat(float64(number), 'f', 1, 64)
-	return fmt.Sprintf("This is the box containing the number %s", prepared)
+	return fmt.Sprintf("This is a box containing the number %s", prepared)
 }
 
 type FancyNumber struct {
@@ -37,14 +37,32 @@ type FancyNumberBox interface {
 // ExtractFancyNumber should return the integer value for a FancyNumber
 // and 0 if any other FancyNumberBox is supplied.
 func ExtractFancyNumber(fnb FancyNumberBox) int {
-	var isSupplied int
-	return isSupplied
+	fn := 0
+	_, ok := fnb.(FancyNumber)
+    if ok {
+		if sc, err := strconv.Atoi(fnb.Value()); err == nil {
+		// fmt.Printf("%T, %v", sc, sc)
+		fn = sc
+		}
+	}
+	// println(fnb.Value())
+	return fn
 }
 
 // DescribeFancyNumberBox should return a string describing the FancyNumberBox.
 func DescribeFancyNumberBox(fnb FancyNumberBox) string {
-	var result string
-	return result
+	// println(fnb.Value())
+	number := 0.0
+	sc, ok := fnb.(FancyNumber)
+    if ok {
+		// if _, err := strconv.Atoi(fnb.Value()); err == nil {
+		fmt.Printf("%T, %v", sc, sc)
+		println(fnb.Value())
+		// number = ExtractFancyNumber(sc)
+		// }
+	}
+	prepared := strconv.FormatFloat(float64(number), 'f', 1, 64)
+	return fmt.Sprintf("This is a fancy box containing the number %s", prepared)
 }
 
 // DescribeAnything should return a string describing whatever it contains.

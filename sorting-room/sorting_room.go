@@ -67,6 +67,10 @@ func DescribeAnything(i any) string {
 		result = DescribeNumber(float64(val))
 	case float64:
 		result = DescribeNumber(val)
+	case NumberBox:
+		result = DescribeNumberBox(val)
+	case FancyNumberBox:
+		result = DescribeFancyNumberBox(val)
 	default:
 		result = "Return to sender"
 	}
